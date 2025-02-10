@@ -106,5 +106,5 @@
         </div>
     </div>
 </section>
-<x-footer>
-</x-footer>
+<x-main.footer>
+</x-main.footer>

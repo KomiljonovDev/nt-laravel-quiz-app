@@ -146,5 +146,5 @@
         </div>
     </div>
 </main>
-<x-footer>
-</x-footer>
+<x-main.footer>
+</x-main.footer>
