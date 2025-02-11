@@ -10,10 +10,19 @@ Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::get('/take-quiz', [QuizController::class, 'takeQuiz'])->middleware('auth')->name('take-quiz');
-Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
-Route::get('/dashboard/quizzes', [DashboardController::class, 'quizzes'])->name('my-quizzes');
-Route::get('/dashboard/create-quiz', [DashboardController::class, 'createQuiz'])->name('create-quiz');
-Route::get('/dashboard/statistics', [DashboardController::class, 'statistics'])->name('statistics');
+
+Route::prefix('dashboard')->middleware('auth')->group(function () {
+    Route::get('/', [DashboardController::class, 'home'])->name('dashboard');
+
+    Route::get('/quizzes', [QuizController::class, 'index'])->name('my-quizzes');
+    Route::get('/quizzes/{quiz}', [QuizController::class, 'edit'])->name('edit-quiz');
+    Route::post('/quizzes/{quiz}/update', [QuizController::class, 'update'])->name('update-quiz');
+
+    Route::get('/statistics', [DashboardController::class, 'statistics'])->name('statistics');
+
+    Route::get('/create-quiz', [QuizController::class, 'create'])->name('create-quiz');
+    Route::post('/create-quiz', [QuizController::class, 'store'])->name('store-quiz');
+});
 
 //Route::get('/dashboard', function () {
 //    return view('dashboard');

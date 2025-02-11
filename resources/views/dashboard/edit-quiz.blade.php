@@ -1,5 +1,5 @@
 <x-header></x-header>
-<script src="@vite('resources/js/add-quiz.js')"></script>
+@vite('resources/js/add-quiz.js')
 <body class="bg-gray-100">
 <div class="flex min-h-screen">
     <!-- Sidebar -->
@@ -20,7 +20,7 @@
                     </div>
 
                     <!-- Main Form -->
-                    <form class="space-y-4" id="quizForm" method="POST">
+                    <form class="space-y-4" id="quizForm" method="POST" action="{{ route('update-quiz', ['quiz'=>$quiz->id]) }}">
                         @csrf
                         <!-- Quiz Details Section -->
                         <div class="bg-white p-6 rounded-lg shadow-md">
@@ -29,6 +29,7 @@
                                 <div>
                                     <label for="title" class="block text-sm font-medium text-gray-700">Quiz Title</label>
                                     <input type="text" id="title" name="title" placeholder="Quiz Title" required
+                                           value="{{ $quiz->title }}"
                                            class="w-full px-4 py-2 border rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 </div>
                                 <div>
