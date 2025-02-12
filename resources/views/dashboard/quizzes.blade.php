@@ -77,13 +77,13 @@
                             <span class="text-sm text-gray-500">75% Completion Rate</span>
                         </div>
                         <div class="flex justify-between">
-                            <button class="text-indigo-600 hover:text-indigo-800">Edit</button>
+                            <a href="{{ route('edit-quiz', ['quiz'=>$quiz->id]) }}" class="text-indigo-600 hover:text-indigo-800">Edit</a>
                             <button class="text-green-600 hover:text-green-800">View Results</button>
                             <button
                                 class="text-green-600 hover:text-green-100 rounded p-1 hover:bg-blue-500"
                                 onclick="share('{{ $quiz->slug }}')"
                                 >Share</button>
-                            <button class="text-red-600 hover:text-red-800">Delete</button>
+                            <a href="{{ route('delete-quiz', ['quiz'=>$quiz->id]) }}" class="text-red-600 hover:text-red-800">Delete</a>
                         </div>
                     </div>
                 @endforeach
@@ -93,7 +93,7 @@
     <script>
         async function share(slug) {
             try {
-                slug = '{{ env('APP_URL') }}' + '/take-quiz/' + slug;
+                slug = '{{ url('/take-quiz/') }}/' + slug;
                 await navigator.clipboard.writeText(slug);
                 alert('Content copied to clipboard');
             } catch (err) {

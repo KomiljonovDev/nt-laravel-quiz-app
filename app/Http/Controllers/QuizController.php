@@ -74,7 +74,7 @@ class QuizController extends Controller
     public function edit(Quiz $quiz)
     {
         return view('dashboard.edit-quiz',[
-            'quiz' => $quiz,
+            'quiz' => $quiz->load('questions.options'),
         ]);
     }
 
@@ -83,7 +83,6 @@ class QuizController extends Controller
      */
     public function update(Request $request, Quiz $quiz)
     {
-
         $validator = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -99,7 +98,6 @@ class QuizController extends Controller
         $quiz->save();
 
         $quiz->questions()->delete();
-
         foreach ($validator['questions'] as $question) {
             $questionItem = $quiz->questions()->create([
                 'name'=>$question['quiz'],
@@ -126,8 +124,9 @@ class QuizController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Quiz $quiz)
     {
-        //
+        $quiz->delete();
+        return to_route('my-quizzes');
     }
 }
