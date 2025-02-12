@@ -42,7 +42,7 @@ class QuizController extends Controller
             'title'=>$validator['title'],
             'description'=>$validator['description'],
             'time_limit'=>$validator['timeLimit'],
-            'slug'=>Str::slug( strtotime('now') . '/'.  $request['title'])
+            'slug'=>Str::slug( strtotime('now') . '-'.  $request['title'])
         ]);
 
         foreach ($validator['questions'] as $question) {
@@ -93,7 +93,7 @@ class QuizController extends Controller
         $quiz->title = $request['title'];
         $quiz->description = $request['description'];
         $quiz->time_limit = $request['timeLimit'];
-        $quiz->slug = Str::slug( strtotime('now') . '/'.  $request['title']);
+        $quiz->slug = Str::slug( strtotime('now') . '-'.  $request['title']);
 
         $quiz->save();
 
@@ -111,14 +111,6 @@ class QuizController extends Controller
         }
 
         return to_route('my-quizzes')->with('message', 'Quiz updated successfully');
-
-//        $quiz->update([
-//            'title' => $request['title'],
-//            'description' => $request['description'],
-//            'time_limit' => $request['timeLimit'],
-//            'slug' => Str::slug( strtotime('now') . '/'.  $request['title'])
-//        ]);
-        dd($quiz, $request->all());
     }
 
     /**
@@ -128,5 +120,11 @@ class QuizController extends Controller
     {
         $quiz->delete();
         return to_route('my-quizzes');
+    }
+    public function takeQuiz(string $slug){
+        $quiz = Quiz::query()->where('slug', $slug)->with('questions.options')->first();
+        return view('quiz.take-quiz',[
+            'quiz' => $quiz,
+        ]);
     }
 }

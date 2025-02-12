@@ -9,7 +9,6 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 
-Route::get('/take-quiz', [QuizController::class, 'takeQuiz'])->middleware('auth')->name('take-quiz');
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'home'])->name('dashboard');
@@ -24,10 +23,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/create-quiz', [QuizController::class, 'create'])->name('create-quiz');
     Route::post('/create-quiz', [QuizController::class, 'store'])->name('store-quiz');
 });
-
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('take-quiz/{slug}', [QuizController::class, 'takeQuiz'])->name('take-quiz');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
