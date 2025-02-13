@@ -12,4 +12,5 @@ class Result extends Model
         'started_at',
         'finished_at'
     ];
+    public $timestamps = false;
 }
