@@ -14,4 +14,8 @@ class Question extends Model
     public function options () {
         return $this->hasMany(Option::class);
     }
+
+    public function quiz () {
+        return $this->belongsTo(Quiz::class);
+    }
 }

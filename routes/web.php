@@ -23,7 +23,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/create-quiz', [QuizController::class, 'create'])->name('create-quiz');
         Route::post('/create-quiz', [QuizController::class, 'store'])->name('store-quiz');
     });
-    Route::get('take-quiz/{slug}', [QuizController::class, 'startQuiz'])->name('start-quiz');
+    Route::get('show-quiz/{slug}', [QuizController::class, 'show'])->name('show-quiz');
+    Route::post('start-quiz/{slug}', [QuizController::class, 'startQuiz'])->name('start-quiz');
     Route::post('take-quiz/{slug}', [QuizController::class, 'takeQuiz'])->name('take-quiz');
 });
 

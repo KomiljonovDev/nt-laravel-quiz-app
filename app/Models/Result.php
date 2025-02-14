@@ -13,4 +13,10 @@ class Result extends Model
         'finished_at'
     ];
     public $timestamps = false;
+
+    public function quiz(){
+        return $this->belongsTo(Quiz::class);
+    }
+
+
 }
