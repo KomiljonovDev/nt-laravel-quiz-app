@@ -88,6 +88,9 @@
                     </div>
                 @endforeach
             </div>
+            <div class="my-3 flex items-center flex-col">
+                {{ $quizzes->links() }}
+            </div>
         </main>
     </div>
     <script>

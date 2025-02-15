@@ -20,9 +20,15 @@ class QuizController extends Controller
     public function index()
     {
         $quiz = Quiz::withCount('questions')
-                    ->where('user_id', auth()->user()->id)
-                        ->orderBy('id', 'desc')
-                            ->get();
+                    ->where('user_id', auth()->user()->id);
+        if (request()->has('search')) {
+            $quiz->where('title', 'like', '%' . request('search') . '%')
+            ->orWhere('description', 'like', '%' . request('search') . '%');
+        }
+        if (request()->has('sort_by_date')) {
+            $quiz->orderBy('id', 'desc');
+        }
+        $quiz = $quiz->paginate(2);
         return view('dashboard.quizzes',[
             'quizzes' =>$quiz
         ]);
