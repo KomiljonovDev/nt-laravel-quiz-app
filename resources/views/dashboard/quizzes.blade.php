@@ -78,7 +78,6 @@
                         </div>
                         <div class="flex justify-between">
                             <a href="{{ route('edit-quiz', ['quiz'=>$quiz->id]) }}" class="text-indigo-600 hover:text-indigo-800">Edit</a>
-                            <button class="text-green-600 hover:text-green-800">View Results</button>
                             <button
                                 class="text-green-600 hover:text-green-100 rounded p-1 hover:bg-blue-500"
                                 onclick="share('{{ $quiz->slug }}')"

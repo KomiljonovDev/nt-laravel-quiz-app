@@ -185,7 +185,19 @@ class QuizController extends Controller
             ->where('user_id', $user_id)
             ->first();
         if ($result->finished_at <= now()) {
-            return 'Seni vaqting tugagan yaramas!';
+            $answers = Answer::query()
+                ->where('result_id', $result->id)
+                ->get();
+            $correctOptionCount = Option::query()
+                ->select('question_id')
+                ->where('is_correct', 1)
+                ->whereIn('id', $answers->pluck('option_id'))
+                ->count();
+            return view('quiz.result-quiz', [
+                'quiz' => $quiz->withCount('questions')->first(),
+                'correctOptionCount' => $correctOptionCount,
+                'time_taken' => Date::createFromFormat('Y-m-d H:i:s', $result->finished_at)->diff($result->started_at),
+            ]);
         }
 //        $result->finished_at = now();
 //        $result->save();

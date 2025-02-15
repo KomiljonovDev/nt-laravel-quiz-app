@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResultController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use  App\Http\Controllers\QuizController;
@@ -12,13 +13,15 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'home'])->name('dashboard');
+        Route::prefix('quizzes')->group(function () {
+            Route::get('/', [QuizController::class, 'index'])->name('my-quizzes');
+            Route::get('/{quiz}', [QuizController::class, 'edit'])->name('edit-quiz');
+            Route::post('/{quiz}/update', [QuizController::class, 'update'])->name('update-quiz');
+            Route::get('/{quiz}/delete', [QuizController::class, 'destroy'])->name('delete-quiz');
+            Route::get('/results/{result}', [ResultController::class, 'show'])->name('my-results');
+        });
 
-        Route::get('/quizzes', [QuizController::class, 'index'])->name('my-quizzes');
-        Route::get('/quizzes/{quiz}', [QuizController::class, 'edit'])->name('edit-quiz');
-        Route::post('/quizzes/{quiz}/update', [QuizController::class, 'update'])->name('update-quiz');
-        Route::get('/quizzes/{quiz}/delete', [QuizController::class, 'destroy'])->name('delete-quiz');
-
-        Route::get('/statistics', [DashboardController::class, 'statistics'])->name('statistics');
+        Route::get('/statistics', [ResultController::class, 'index'])->name('statistics');
 
         Route::get('/create-quiz', [QuizController::class, 'create'])->name('create-quiz');
         Route::post('/create-quiz', [QuizController::class, 'store'])->name('store-quiz');
